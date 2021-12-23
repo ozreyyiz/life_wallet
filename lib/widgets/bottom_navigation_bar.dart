@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:life_wallet/screens/buy_screen.dart';
+import 'package:life_wallet/screens/earnings_screen.dart';
+import 'package:life_wallet/screens/home_screen.dart';
 
 class BottomNavigationBarHome extends StatefulWidget {
   int currentIndex;
@@ -16,7 +19,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
     return Positioned(
       bottom: 0,
       left: 0,
-      child: Container(
+      child: SizedBox(
         width: size.width,
         height: 80,
         child: Stack(
@@ -25,6 +28,60 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
               size: Size(size.width, 80),
               painter: MyPainter(),
             ),
+            Center(
+                heightFactor: 0.6,
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
+                      });
+                    },
+                    child: CircleAvatar(
+                      radius: 30,
+                    ))),
+            SizedBox(
+              width: size.width,
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EarningsScreen()));
+                      });
+                    },
+                    icon: Icon(
+                      Icons.access_alarms_outlined,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                  SizedBox(
+                    width: size.width / 8,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BuyScreen()));
+                      });
+                    },
+                    icon: Icon(
+                      Icons.access_alarms_outlined,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
