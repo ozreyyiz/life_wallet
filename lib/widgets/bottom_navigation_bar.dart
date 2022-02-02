@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:life_wallet/screens/buy_screen.dart';
-import 'package:life_wallet/screens/earnings_screen.dart';
+import 'package:life_wallet/screens/selling_screen.dart';
+import 'package:life_wallet/screens/earning/earning_screen_add.dart';
+import 'package:life_wallet/screens/earning/earnings_screen.dart';
 import 'package:life_wallet/screens/home_screen.dart';
 
 class BottomNavigationBarHome extends StatefulWidget {
@@ -33,10 +34,12 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
                 child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
+                                builder: (context) => widget.currentIndex == 1
+                                    ? EarningItemAdd()
+                                    : HomeScreen()));
                       });
                     },
                     child: CircleAvatar(
@@ -51,7 +54,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => EarningsScreen()));
@@ -68,10 +71,10 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => BuyScreen()));
+                                builder: (context) => SellingScreen()));
                       });
                     },
                     icon: Icon(

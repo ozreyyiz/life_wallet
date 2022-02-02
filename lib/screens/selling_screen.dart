@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:life_wallet/db/earnable_itemdao.dart';
 import 'package:life_wallet/model/earnable_item.dart';
 import 'package:life_wallet/widgets/bottom_navigation_bar.dart';
+import 'package:life_wallet/widgets/item_box.dart';
 
-class EarningsScreen extends StatefulWidget {
-  EarningsScreen({Key? key}) : super(key: key);
+class SellingScreen extends StatefulWidget {
+  SellingScreen({Key? key}) : super(key: key);
 
   @override
-  _EarningsScreenState createState() => _EarningsScreenState();
+  _SellingScreenState createState() => _SellingScreenState();
 }
 
-class _EarningsScreenState extends State<EarningsScreen> {
+class _SellingScreenState extends State<SellingScreen> {
+  @override
+  int currentIndex = 1;
   var items = <EarnableItem>[];
   Future<List<EarnableItem>> getItems() async {
     items = await Earnabledao().getItems();
@@ -27,17 +30,26 @@ class _EarningsScreenState extends State<EarningsScreen> {
             Container(
               height: size.height,
               width: size.width,
-              color: Colors.green,
+              color: Colors.white,
             ),
             Column(
               children: [
                 Container(
+                  width: size.width,
                   height: size.height / 8,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(80),
+                        bottomRight: Radius.circular(80),
+                      ),
+                      color: Colors.grey),
                   child: FutureBuilder(
                     future: getItems(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       var wallet = snapshot.data;
-                      return Text("40₺");
+                      return Center(
+                        child: Text("40₺"),
+                      );
                     },
                   ),
                 ),
@@ -51,23 +63,9 @@ class _EarningsScreenState extends State<EarningsScreen> {
                           itemCount: items.length,
                           itemBuilder: (BuildContext context, int index) {
                             EarnableItem item = items[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 20),
-                                      child: Text(item.item_name)),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 20),
-                                    child: ElevatedButton(
-                                        onPressed: () {},
-                                        child: Text("${item.item_price} ₺")),
-                                  )
-                                ],
-                              ),
+                            return ItemBox(
+                              item: item,
+                              currentIndex: currentIndex,
                             );
                           },
                         );
@@ -79,7 +77,9 @@ class _EarningsScreenState extends State<EarningsScreen> {
                 ),
               ],
             ),
-            BottomNavigationBarHome(),
+            BottomNavigationBarHome(
+              currentIndex: currentIndex,
+            ),
           ],
         ),
       ),
