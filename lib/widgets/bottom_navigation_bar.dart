@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:life_wallet/screens/selling_screen.dart';
-import 'package:life_wallet/screens/earning/earning_screen_add.dart';
-import 'package:life_wallet/screens/earning/earnings_screen.dart';
+import 'package:life_wallet/screens/earnable/earning_screen_add.dart';
+import 'package:life_wallet/screens/earnable/earnings_screen.dart';
+import 'package:life_wallet/screens/sellable/selling_screen.dart';
 import 'package:life_wallet/screens/home_screen.dart';
+import 'package:life_wallet/screens/sellable/selling_screen_add.dart';
+import 'package:life_wallet/widgets/my_painter.dart';
 
 class BottomNavigationBarHome extends StatefulWidget {
   int currentIndex;
@@ -34,12 +36,12 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
                 child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => widget.currentIndex == 1
                                     ? EarningItemAdd()
-                                    : HomeScreen()));
+                                    : SellingItemAdd()));
                       });
                     },
                     child: CircleAvatar(
@@ -89,35 +91,5 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
         ),
       ),
     );
-  }
-}
-
-class MyPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.fill;
-
-    Path path = Path()..moveTo(0, 20);
-    path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
-    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
-    path.arcToPoint(
-      Offset(size.width * 0.60, 20),
-      radius: Radius.circular(10),
-      clockwise: false,
-    );
-    path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
-    path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    return false;
   }
 }

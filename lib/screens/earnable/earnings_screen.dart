@@ -3,6 +3,7 @@ import 'package:life_wallet/db/earnable_itemdao.dart';
 import 'package:life_wallet/model/earnable_item.dart';
 import 'package:life_wallet/widgets/bottom_navigation_bar.dart';
 import 'package:life_wallet/widgets/item_box.dart';
+import 'package:life_wallet/widgets/wallet_box.dart';
 
 class EarningsScreen extends StatefulWidget {
   EarningsScreen({Key? key}) : super(key: key);
@@ -33,25 +34,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
             ),
             Column(
               children: [
-                Container(
-                  width: size.width,
-                  height: size.height / 8,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(80),
-                        bottomRight: Radius.circular(80),
-                      ),
-                      color: Colors.grey),
-                  child: FutureBuilder(
-                    future: getItems(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      var wallet = snapshot.data;
-                      return Center(
-                        child: Text("40₺"),
-                      );
-                    },
-                  ),
-                ),
+                walletBox(size),
                 Expanded(
                   child: FutureBuilder(
                     future: getItems(),

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:life_wallet/db/earnable_itemdao.dart';
-import 'package:life_wallet/screens/earning/earnings_screen.dart';
+import 'package:life_wallet/db/sellable_itemdao.dart';
+import 'package:life_wallet/screens/earnable/earnings_screen.dart';
+import 'package:life_wallet/screens/sellable/selling_screen.dart';
+
 import 'package:path/path.dart';
 
-class EarningItemAdd extends StatefulWidget {
-  EarningItemAdd({Key? key}) : super(key: key);
+class SellingItemAdd extends StatefulWidget {
+  SellingItemAdd({Key? key}) : super(key: key);
 
   @override
-  State<EarningItemAdd> createState() => _EarningItemAddState();
+  State<SellingItemAdd> createState() => _SellingItemAddState();
 }
 
-class _EarningItemAddState extends State<EarningItemAdd> {
+class _SellingItemAddState extends State<SellingItemAdd> {
   TextEditingController itemNameCntrl = TextEditingController();
   TextEditingController itemPriceCntrl = TextEditingController();
 
   Future<void> addItem(String itemName, int itemPrice) async {
-    await Earnabledao().addItem(itemName, itemPrice);
+    await Sellabledao().addItem(itemName, itemPrice);
     Navigator.pushReplacement(this.context,
         MaterialPageRoute(builder: (context) => EarningsScreen()));
   }
@@ -25,7 +28,7 @@ class _EarningItemAddState extends State<EarningItemAdd> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Earning Item Add"),
+        title: Text("Selling Item Add"),
       ),
       body: Center(
         child: Padding(
@@ -45,6 +48,10 @@ class _EarningItemAddState extends State<EarningItemAdd> {
                 onPressed: () {
                   int price = int.parse(itemPriceCntrl.text);
                   addItem(itemNameCntrl.text, price);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => SellingScreen())));
                 },
                 icon: Icon(Icons.save),
                 label: Text("Save"),

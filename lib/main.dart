@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:life_wallet/models/lists.dart';
-import 'package:life_wallet/screens/home_screen.dart';
+import 'package:life_wallet/lists/lists.dart';
+
 import 'package:life_wallet/widgets/bottom_navigation_bar.dart';
 
 void main() {
