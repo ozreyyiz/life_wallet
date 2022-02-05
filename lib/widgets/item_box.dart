@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:life_wallet/db/earnable_itemdao.dart';
 import 'package:life_wallet/db/sellable_itemdao.dart';
+import 'package:life_wallet/db/walletdao.dart';
 import 'package:life_wallet/model/earnable_item.dart';
+import 'package:life_wallet/model/sellable_item.dart';
+import 'package:life_wallet/model/wallet.dart';
 import 'package:path/path.dart';
 
 class ItemBox extends StatefulWidget {

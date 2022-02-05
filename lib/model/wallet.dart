@@ -1,6 +1,6 @@
 class Wallet {
  
-  final int wallet;
+  late final int wallet;
 
   Wallet(this.wallet,);
 }

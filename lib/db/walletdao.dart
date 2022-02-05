@@ -5,11 +5,21 @@ class Walletdao {
   Future<List<Wallet>> getWallet() async {
     var db = await DbHelper.dbAccess();
 
-    List<Map<String, dynamic>> maps =
-        await db.rawQuery("SELECT * FROM wallet");
+    List<Map<String, dynamic>> maps = await db.rawQuery("SELECT * FROM wallet");
     return List.generate(maps.length, (i) {
       var line = maps[i];
       return Wallet(line["wallet"]);
     });
+  }
+
+  Future<void> updateItem(int wallet) async {
+    var db = await DbHelper.dbAccess();
+    var datas = Map<String, dynamic>();
+    datas["wallet"] = wallet;
+
+    await db.update(
+      "wallet",
+      datas,
+    );
   }
 }

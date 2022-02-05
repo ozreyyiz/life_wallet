@@ -8,7 +8,10 @@ Future<List<Wallet>> getWallet() async {
   return wallet;
 }
 
+
+
 Container walletBox(Size size) {
+  int a=5;
   return Container(
     width: size.width,
     height: size.height / 8,
@@ -26,7 +29,8 @@ Container walletBox(Size size) {
           return ListView.builder(
             itemCount: wallets.length,
             itemBuilder: (BuildContext context, int index) {
-              var price = wallets[index];
+              Wallet price = wallets[index];
+           
               var pad = size.height / 20;
               return Padding(
                 padding: EdgeInsets.all(pad),
