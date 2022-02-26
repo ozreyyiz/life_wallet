@@ -1,26 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:life_wallet/db/earnable_itemdao.dart';
-import 'package:life_wallet/db/sellable_itemdao.dart';
-import 'package:life_wallet/screens/earnable/earnings_screen.dart';
-import 'package:life_wallet/screens/sellable/selling_screen.dart';
+import 'package:life_wallet/model/expense_item.dart';
+import 'package:life_wallet/model/income_item.dart';
+import 'package:life_wallet/screens/expense/expense_screen.dart';
 
 import 'package:path/path.dart';
 
-class SellingItemAdd extends StatefulWidget {
-  SellingItemAdd({Key? key}) : super(key: key);
+class ExpenseItemAdd extends StatefulWidget {
+  ExpenseItemAdd({Key? key}) : super(key: key);
 
   @override
-  State<SellingItemAdd> createState() => _SellingItemAddState();
+  State<ExpenseItemAdd> createState() => _ExpenseItemAddState();
 }
 
-class _SellingItemAddState extends State<SellingItemAdd> {
+class _ExpenseItemAddState extends State<ExpenseItemAdd> {
   TextEditingController itemNameCntrl = TextEditingController();
   TextEditingController itemPriceCntrl = TextEditingController();
 
-  Future<void> addItem(String itemName, int itemPrice) async {
-    await Sellabledao().addItem(itemName, itemPrice);
-    Navigator.pushReplacement(this.context,
-        MaterialPageRoute(builder: (context) => EarningsScreen()));
+  Future<void> addItem({required ExpenseItem item}) async {
+    final docItem = FirebaseFirestore.instance.collection("expenseItems").doc();
+    item.item_id = docItem.id;
+    final json = item.toJson();
+
+    await docItem.set(json);
   }
 
   @override
@@ -43,15 +45,19 @@ class _SellingItemAddState extends State<SellingItemAdd> {
               TextField(
                 decoration: InputDecoration(hintText: "Item Price"),
                 controller: itemPriceCntrl,
+                keyboardType: TextInputType.number,
               ),
               FloatingActionButton.extended(
                 onPressed: () {
-                  int price = int.parse(itemPriceCntrl.text);
-                  addItem(itemNameCntrl.text, price);
+                  final item = ExpenseItem(
+                    item_name: itemNameCntrl.text,
+                    item_price: itemPriceCntrl.text,
+                  );
+                  addItem(item: item);
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => SellingScreen())));
+                          builder: ((context) => ExpenseScreen())));
                 },
                 icon: Icon(Icons.save),
                 label: Text("Save"),

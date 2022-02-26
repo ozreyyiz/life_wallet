@@ -1,11 +1,11 @@
-import 'package:life_wallet/screens/earnable/earnings_screen.dart';
-import 'package:life_wallet/screens/sellable/selling_screen.dart';
+import 'package:life_wallet/screens/expense/expense_screen.dart';
 import 'package:life_wallet/screens/home_screen.dart';
+import 'package:life_wallet/screens/income/income_screen.dart';
 
 List screens = [
   HomeScreen(),
-  SellingScreen(),
-  EarningsScreen(),
+  ExpenseScreen(),
+  IncomeScreen(),
 ];
 
 List quotes = [

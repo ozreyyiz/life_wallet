@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:life_wallet/db/walletdao.dart';
 import 'package:life_wallet/model/wallet.dart';
 
 var wallet = <Wallet>[];
 Future<List<Wallet>> getWallet() async {
-  wallet = await Walletdao().getWallet();
+
   return wallet;
 }
 

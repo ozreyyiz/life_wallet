@@ -1,23 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:life_wallet/db/earnable_itemdao.dart';
-import 'package:life_wallet/model/earnable_item.dart';
+import 'package:life_wallet/model/income_item.dart';
 import 'package:life_wallet/widgets/bottom_navigation_bar.dart';
 import 'package:life_wallet/widgets/item_box.dart';
 import 'package:life_wallet/widgets/wallet_box.dart';
 
-class EarningsScreen extends StatefulWidget {
-  EarningsScreen({Key? key}) : super(key: key);
+class IncomeScreen extends StatefulWidget {
+  IncomeScreen({Key? key}) : super(key: key);
 
   @override
-  _EarningsScreenState createState() => _EarningsScreenState();
+  _IncomeScreenState createState() => _IncomeScreenState();
 }
 
-class _EarningsScreenState extends State<EarningsScreen> {
+class _IncomeScreenState extends State<IncomeScreen> {
   int currentIndex = 1;
-  var items = <EarnableItem>[];
-  Future<List<EarnableItem>> getItems() async {
-    items = await Earnabledao().getItems();
-    return items;
+
+  Stream<List<IncomeItem>> readItem() {
+    return FirebaseFirestore.instance.collection("incomeItems").snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => IncomeItem.fromJson(doc.data())).toList());
   }
 
   @override
@@ -36,23 +37,25 @@ class _EarningsScreenState extends State<EarningsScreen> {
               children: [
                 walletBox(size),
                 Expanded(
-                  child: FutureBuilder(
-                    future: getItems(),
+                  child: StreamBuilder<List<IncomeItem>>(
+                    stream: readItem(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
-                        var items = snapshot.data;
+                        final items = snapshot.data;
                         return ListView.builder(
                           itemCount: items.length,
                           itemBuilder: (BuildContext context, int index) {
-                            EarnableItem item = items[index];
+                            IncomeItem item = items[index];
                             return ItemBox(
                               item: item,
                               currentIndex: currentIndex,
                             );
                           },
                         );
-                      } else {
-                        return Center();
+                      } 
+                  
+                      else {
+                        return CircularProgressIndicator();
                       }
                     },
                   ),

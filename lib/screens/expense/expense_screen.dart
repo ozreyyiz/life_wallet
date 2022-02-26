@@ -1,28 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:life_wallet/db/sellable_itemdao.dart';
-import 'package:life_wallet/db/walletdao.dart';
-import 'package:life_wallet/model/sellable_item.dart';
+
+import 'package:life_wallet/model/expense_item.dart';
 import 'package:life_wallet/model/wallet.dart';
 import 'package:life_wallet/widgets/bottom_navigation_bar.dart';
 import 'package:life_wallet/widgets/item_box.dart';
 import 'package:life_wallet/widgets/wallet_box.dart';
 
-class SellingScreen extends StatefulWidget {
-  SellingScreen({Key? key}) : super(key: key);
+class ExpenseScreen extends StatefulWidget {
+  ExpenseScreen({Key? key}) : super(key: key);
 
   @override
-  _SellingScreenState createState() => _SellingScreenState();
+  _ExpenseScreenState createState() => _ExpenseScreenState();
 }
 
-class _SellingScreenState extends State<SellingScreen> {
+class _ExpenseScreenState extends State<ExpenseScreen> {
   int currentIndex = 2;
-  var items = <SellableItem>[];
-  Future<List<SellableItem>> getItems() async {
-    items = await Sellabledao().getItems();
-    return items;
+  Stream<List<ExpenseItem>> getItems() {
+    return FirebaseFirestore.instance
+        .collection("expenseItems")
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ExpenseItem.fromJson(doc.data()))
+            .toList());
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +41,15 @@ class _SellingScreenState extends State<SellingScreen> {
               children: [
                 walletBox(size),
                 Expanded(
-                  child: FutureBuilder(
-                    future: getItems(),
+                  child: StreamBuilder<List<ExpenseItem>>(
+                    stream: getItems(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         var items = snapshot.data;
                         return ListView.builder(
                           itemCount: items.length,
                           itemBuilder: (BuildContext context, int index) {
-                            SellableItem item = items[index];
+                            ExpenseItem item = items[index];
                             return ItemBox(
                               item: item,
                               currentIndex: currentIndex,

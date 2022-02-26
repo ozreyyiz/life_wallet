@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:life_wallet/screens/earnable/earning_screen_add.dart';
-import 'package:life_wallet/screens/earnable/earnings_screen.dart';
-import 'package:life_wallet/screens/sellable/selling_screen.dart';
-import 'package:life_wallet/screens/home_screen.dart';
-import 'package:life_wallet/screens/sellable/selling_screen_add.dart';
+import 'package:life_wallet/screens/expense/expense_screen.dart';
+import 'package:life_wallet/screens/expense/expense_screen_add.dart';
+import 'package:life_wallet/screens/income/income_screen.dart';
+import 'package:life_wallet/screens/income/income_screen_add.dart';
+
 import 'package:life_wallet/widgets/my_painter.dart';
 
 class BottomNavigationBarHome extends StatefulWidget {
@@ -40,8 +40,8 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => widget.currentIndex == 1
-                                    ? EarningItemAdd()
-                                    : SellingItemAdd()));
+                                    ? IncomeItemAdd()
+                                    : ExpenseItemAdd()));
                       });
                     },
                     child: CircleAvatar(
@@ -59,7 +59,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EarningsScreen()));
+                                builder: (context) => IncomeScreen()));
                       });
                     },
                     icon: Icon(
@@ -76,7 +76,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SellingScreen()));
+                                builder: (context) => ExpenseScreen()));
                       });
                     },
                     icon: Icon(

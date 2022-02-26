@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:life_wallet/db/earnable_itemdao.dart';
-import 'package:life_wallet/db/sellable_itemdao.dart';
-import 'package:life_wallet/db/walletdao.dart';
-import 'package:life_wallet/model/earnable_item.dart';
-import 'package:life_wallet/model/sellable_item.dart';
+
+import 'package:life_wallet/model/income_item.dart';
+import 'package:life_wallet/model/expense_item.dart';
 import 'package:life_wallet/model/wallet.dart';
 import 'package:path/path.dart';
 
@@ -22,12 +21,17 @@ class ItemBox extends StatefulWidget {
 }
 
 class _ItemBoxState extends State<ItemBox> {
-  Future<void> deleteEarningItem(int itemId) async {
-    await Earnabledao().deleteGrade(itemId);
+  Future<void> deleteEarningItem(String itemId) async {
+    final docItem =
+        FirebaseFirestore.instance.collection("incomeItems").doc(itemId);
+    docItem.delete();
   }
 
-  Future<void> deleteSellableItem(int itemId) async {
-    await Sellabledao().deleteGrade(itemId);
+  Future<void> deleteSellableItem(String itemId) async {
+    final docItem =
+        FirebaseFirestore.instance.collection("expenseItems").doc(itemId);
+    docItem.delete();
+ 
   }
 
   @override
@@ -41,7 +45,7 @@ class _ItemBoxState extends State<ItemBox> {
               : deleteSellableItem(widget.item.item_id);
         },
         direction: DismissDirection.endToStart,
-        key: Key(widget.item.item_name),
+        key: Key(widget.item.item_id),
         background: Container(
           alignment: Alignment.centerRight,
           decoration: BoxDecoration(

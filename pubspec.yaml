@@ -35,8 +35,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   animated_text_kit: ^4.2.1
-  sqflite: ^2.0.2
-  path: ^1.8.0
+    #Fİrebase Database
+  cloud_firestore: ^3.1.8
+  
+  #DateTimeField
+  datetime_picker_formfield: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -61,8 +64,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - db/
+  # assets:
+  
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
