@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:life_wallet/model/income_item.dart';
 import 'package:life_wallet/model/expense_item.dart';
 import 'package:life_wallet/model/wallet.dart';
+import 'package:life_wallet/widgets/wallet_box.dart';
 import 'package:path/path.dart';
 
 class ItemBox extends StatefulWidget {
@@ -31,7 +32,12 @@ class _ItemBoxState extends State<ItemBox> {
     final docItem =
         FirebaseFirestore.instance.collection("expenseItems").doc(itemId);
     docItem.delete();
- 
+  }
+
+  Stream<List<Wallet>> readWallet() {
+    return FirebaseFirestore.instance.collection("wallet").snapshots().map(
+        (snapshot) =>
+            snapshot.docs.map((doc) => Wallet.fromJson(doc.data())).toList());
   }
 
   @override
@@ -72,7 +78,17 @@ class _ItemBoxState extends State<ItemBox> {
                     primary:
                         widget.currentIndex == 1 ? Colors.blue : Colors.red,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    final docWallet = FirebaseFirestore.instance
+                        .collection("wallet")
+                        .doc("0GFX627NXPAlnd6a0zqz");
+
+                    docWallet.update({
+                      "wallet_amount": widget.currentIndex == 1
+                          ? walletAmount + int.parse(widget.item.item_price)
+                          : walletAmount - int.parse(widget.item.item_price)
+                    });
+                  },
                   child: Text("${widget.item.item_price} ₺")),
             )
           ],
